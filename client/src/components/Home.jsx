@@ -1,4 +1,3 @@
-import { Fragment } from 'react'
 import {
   Disclosure,
   DisclosureButton,
@@ -10,7 +9,8 @@ import {
   Transition,
 } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-
+import { useEffect, useState } from 'react'
+import Usercard from './Usarcard'
 const user = {
   name: 'Tom Cook',
   email: 'tom@example.com',
@@ -34,7 +34,15 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example() {
+export default function Home() {
+  const [allUsers, setAllUsers] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:8000/db/getUsers").then((res) => {
+      return res.json();
+    }).then((ans) => {
+      setAllUsers(ans);
+    })
+  }, [])
   return (
     <>
       <div className="min-h-full">
@@ -192,7 +200,11 @@ export default function Example() {
           </div>
         </header>
         <main>
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">Hello Userrs</div>
+          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            <h3>Here is the list of all users:</h3>
+            <h3>Total number of users: {allUsers.length}</h3>
+            <Usercard allUsers={allUsers}/>
+          </div>
         </main>
       </div>
     </>

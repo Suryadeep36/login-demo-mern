@@ -18,7 +18,6 @@ export default function Signin() {
         },
         body: JSON.stringify(user)
       }).then((res)=>{
-        console.log("form was submitted");
         navigate("/home")
       })
       
