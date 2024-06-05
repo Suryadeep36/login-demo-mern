@@ -1,13 +1,7 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import LoginPopup from "./LoginPopup";
 
-
-export default function Signin() {
-  const {state} = useLocation();
-  const {showPopup} = state ? state : {
-    showPopup: false
-  };
+export default function Signup() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +12,7 @@ export default function Signin() {
         username: username,
         password: password
       }
-      fetch("http://localhost:8000/signin",{
+      fetch("http://localhost:8000/",{
         method: "POST",
         credentials: "same-origin",
         headers: {
@@ -26,29 +20,19 @@ export default function Signin() {
         },
         body: JSON.stringify(user)
       }).then((res)=>{
-        return res.json();
-      }).then((msg)=>{
-        if(msg.message === "Error while signin"){
-          navigate("/signin", {
-            state: {
-              showPopup : true
-            }
-          })
-        }
-        else{
-          navigate("/home")
-        }
+        navigate("/home")
       })
       
     }
     return (
+      <>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-          {showPopup ? <LoginPopup/> : <></>}
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Sign in to your account 
-            </h2>    
+              Create an Account
+            </h2>
           </div>
+  
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form className="space-y-6">
               <div>
@@ -88,7 +72,6 @@ export default function Signin() {
                   />
                 </div>
               </div>
-  
               <div>
                 <div className="flex items-center justify-between">
                   <label className="block text-sm font-medium leading-6 text-gray-900">
@@ -115,15 +98,13 @@ export default function Signin() {
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   onClick={handleClick}
                 >
-                  Sign in
+                  Sign Up
                 </button>
-              </div>
-              <div className="text-center bg-blue-500 hover:bg-blue-400 rounded-lg p-2 mx-20">
-                <a href="/" className=" text-lg  text-white font-semibold">I don't have an account</a>
               </div>
             </form>
           </div>
         </div>
+      </>
     )
   }
   
